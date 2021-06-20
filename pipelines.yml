@@ -12,21 +12,21 @@ resources:
     configuration:
       registry: docker                               # <-- replace with your artifactory integration
       sourceRepository: default          # <-- required if registry is Artifactory
-      imageName: nethra.jfrog-pipelines.com/default/dbp  # < -- replace with your image path and name
+      imageName: ubuntu  # < -- replace with your image path and name
       imageTag: latest
       autoPull: true
       
   - name: dbp_build_info
     type: BuildInfo
     configuration:
-      sourceArtifactory: art
+      sourceArtifactory: default
       buildName: dbp_build
       buildNumber: 1    
 
   - name: dbp_promoted_build_info
     type: BuildInfo
     configuration:
-      sourceArtifactory: art
+      sourceArtifactory: default
       buildName: dbp_build
       buildNumber: 1
       
@@ -40,7 +40,7 @@ pipelines:
           affinityGroup: dbp_group
           dockerFileLocation: .
           dockerFileName: Dockerfile
-          dockerImageName: nethra.jfrog-pipelines.com/docker-local/dbp  # replace with your image path and name
+          dockerImageName: ubuntu # replace with your image path and name
           dockerImageTag: ${run_number}
           inputResources:
             - name: dbp_repo
@@ -51,7 +51,7 @@ pipelines:
         type: DockerPush
         configuration:
           affinityGroup: dbp_group
-          targetRepository: docker-local
+          targetRepository: default
           integrations:
             - name: docker                       # <-- replace with your artifactory integration
           inputSteps:
