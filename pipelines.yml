@@ -2,7 +2,7 @@ resources:
   - name: dbp_repo
     type: GitRepo
     configuration:
-      gitProvider: nethra                       # <-- replace with your integration
+      gitProvider: my_github                    # <-- replace with your integration
       path: nethrasruthinethra/jfrog-pipelines-docker-sample    # <-- replace with your repository name
       branches:
         include: master
@@ -10,9 +10,9 @@ resources:
   - name: dbp_image
     type: Image
     configuration:
-      registry: nethra                                # <-- replace with your artifactory integration
-      sourceRepository: default-docker-local               # <-- required if registry is Artifactory
-      imageName: nethra.jfrog-pipelines.com/default-docker-local/dbp  # < -- replace with your image path and name
+      registry: docker                               # <-- replace with your artifactory integration
+      sourceRepository: default          # <-- required if registry is Artifactory
+      imageName: nethra.jfrog-pipelines.com/default/dbp  # < -- replace with your image path and name
       imageTag: latest
       autoPull: true
       
@@ -45,7 +45,7 @@ pipelines:
           inputResources:
             - name: dbp_repo
           integrations:
-            - name: nethra                           # <-- replace with your artifactory integration
+            - name: docker                          # <-- replace with your artifactory integration
 
       - name: docker_push
         type: DockerPush
@@ -53,7 +53,7 @@ pipelines:
           affinityGroup: dbp_group
           targetRepository: docker-local
           integrations:
-            - name: nethra                       # <-- replace with your artifactory integration
+            - name: docker                       # <-- replace with your artifactory integration
           inputSteps:
             - name: docker_build
           outputResources:
